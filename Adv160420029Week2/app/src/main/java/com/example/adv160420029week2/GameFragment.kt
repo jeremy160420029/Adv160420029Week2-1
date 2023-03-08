@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import androidx.navigation.Navigation
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +24,9 @@ class GameFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    var score = 0
+    var result = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +52,46 @@ class GameFragment : Fragment() {
                 GameFragmentArgs.fromBundle(requireArguments()).playerName
             txtTurn.text = "$playerName's Turn"
         }
+        val txtRand1 = view.findViewById<TextView>(R.id.txtRand1)
+        val txtRand2 = view.findViewById<TextView>(R.id.txtRand2)
 
+        val random1 = (0..100).random()
+        val random2 = (0..100).random()
+
+        txtRand1.text = random1.toString()
+        txtRand2.text = random2.toString()
+
+        result = random1 + random2
+
+        var tebakan = view.findViewById<TextView>(R.id.txtAngka)
+
+        val btnSubmit = view.findViewById<Button>(R.id.btnSubmit)
+        val btnBack = view.findViewById<Button>(R.id.btnBack)
+
+        btnSubmit.setOnClickListener {
+            if(tebakan.text.toString() == result.toString()){
+                score = score + 1
+
+                val random1 = (0..100).random()
+                val random2 = (0..100).random()
+
+                txtRand1.text = random1.toString()
+                txtRand2.text = random2.toString()
+
+                result = random1 + random2
+                tebakan.setText("")
+            } else {
+                //lempar ke fragment result
+                var totalScore = score
+                val action = GameFragmentDirections.actionResultFragment(totalScore)
+                Navigation.findNavController(it).navigate(action)
+            }
+        }
+
+        btnBack.setOnClickListener {
+            val action = GameFragmentDirections.actionMainFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
     }
 
     companion object {
