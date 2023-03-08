@@ -26,4 +26,9 @@
             android:name="player_name"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.example.adv160420029week2.ResultFragment"
+        android:label="fragment_result"
+        tools:layout="@layout/fragment_result" />
 </navigation>
